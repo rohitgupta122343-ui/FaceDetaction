@@ -1,0 +1,132 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,body ,#root{
+width : 100%;
+height : 100%;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background: #101117;
+  color: #f7f7fb;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.home-page {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  gap: clamp(8px, 2vh, 18px);
+  overflow: hidden;
+  padding: clamp(12px, 3vh, 36px) clamp(14px, 3vw, 20px);
+}
+
+.home-content {
+  display: grid;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+  gap: clamp(12px, 2vw, 24px);
+}
+
+.face-expression {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 !important;
+}
+
+.face-expression h1 {
+  margin-bottom: clamp(6px, 1.5vh, 16px);
+  font-size: clamp(20px, 4vw, 32px);
+}
+
+.face-expression video {
+  max-width: 100%;
+  max-height: max(80px, calc(100dvh - 310px));
+  object-fit: contain;
+}
+
+.face-expression h2 {
+  margin-top: clamp(6px, 1.5vh, 16px) !important;
+  font-size: clamp(20px, 4vw, 28px) !important;
+}
+
+.face-expression button {
+  margin-top: 8px;
+}
+
+@media (max-width: 760px) {
+  .home-content {
+    grid-template-columns: minmax(0, 1fr) minmax(190px, 0.7fr);
+    gap: 10px;
+  }
+
+  .home-page {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+}
+
+@media (max-height: 520px) {
+  .home-page {
+    gap: 6px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .face-expression h1 {
+    margin-bottom: 4px;
+    font-size: 18px;
+  }
+
+  .face-expression video {
+    max-height: max(56px, calc(100dvh - 205px));
+  }
+
+  .face-expression h2 {
+    margin-top: 4px !important;
+    font-size: 18px !important;
+  }
+
+  .face-expression button {
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 540px) {
+  .home-content {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) minmax(0, 0.85fr);
+    gap: 10px;
+  }
+
+  .face-expression h1 {
+    font-size: clamp(16px, 4vw, 22px);
+  }
+
+  .face-expression video {
+    max-height: min(25dvh, calc(100dvh - 360px));
+  }
+}
+
+@media (max-width: 540px) and (max-height: 480px) {
+  .home-content {
+    grid-template-columns: minmax(0, 1fr) minmax(145px, 42%);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .face-expression video {
+    max-height: max(56px, calc(100dvh - 205px));
+  }
+}
