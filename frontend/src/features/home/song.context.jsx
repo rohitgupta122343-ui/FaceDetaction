@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { SongContext } from "./song-context";
+export const SongContext = createContext();
+
 
 const initialSong = {
     url: 'https://ik.imagekit.io/0wmauyftj/moodify2/songs/Jaavi_Na__DownloadMing.WS__xKtevmX7c.mp3',
