@@ -5,6 +5,12 @@ const jwt = require('jsonwebtoken')
 const blackListModel = require('../model/blacklist.model')
 const redis = require('../config/cache')
 
+const cookieOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none'
+}
+
 async function registerController(req,res) {
 
     const { username,email,password } = req.body
@@ -25,9 +31,9 @@ async function registerController(req,res) {
         password:hash
     })
 
-    const token = jwt.sign({id:user._id},process.env.JWT_SECRECT)
+    const token = jwt.sign({id:user._id},process.env.JWT_SECRECT,{expiresIn:'3d'})
 
-    res.cookie("token",token)
+    res.cookie('token',token,{...cookieOptions,maxAge:3*24*60*60*1000})
 
     res.status(201).json({
         message : 'user created sucessfully',
@@ -58,7 +64,7 @@ async function loginController(req,res) {
         })
    }
 
-   const isValidPass = bcrypt.compare(password,user.password)
+   const isValidPass = await bcrypt.compare(password,user.password)
 
    if(!isValidPass){
     return res.status(401).json({
@@ -68,7 +74,7 @@ async function loginController(req,res) {
 
    const token = jwt.sign({id:user._id},process.env.JWT_SECRECT,{expiresIn:'3d'})
 
-   res.cookie('token',token)
+   res.cookie('token',token,{...cookieOptions,maxAge:3*24*60*60*1000})
 
    res.status(200).json({
     message : 'user LoggedIn..',
@@ -102,11 +108,11 @@ async function logoutController(req,res){
 
     const token = req.cookies.token 
 
-    // await blackListModel.create({token})
+    if(token){
+        await redis.set(token,Date.now().toString(),"EX",60*60)
+    }
 
-    await redis.set(token,Date.now().toString(),"EX",60*60)
-
-    res.cookie('token','')
+    res.clearCookie('token',cookieOptions)
 
     res.status(200).json({
         message : 'user logout sucessfully.'

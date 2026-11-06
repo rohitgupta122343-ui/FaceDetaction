@@ -31,10 +31,11 @@ async function authUser(req,res,next){
 
         next()
 
-    }catch(err){    
-        console.log(err)
+    }catch(err){
+        return res.status(401).json({
+            message: 'Invalid or expired token'
+        })
     }
-
 }
 
 module.exports = authUser
